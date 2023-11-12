@@ -1,12 +1,5 @@
 # Nome del Tuo Progetto
     IG
-## Setup del Progetto
-
-### Backend (Node.js e Prisma)
-
-
-1. **Configurazione del Database con Prisma:**
-   - Crea uno schema utilizzando Prisma e definisci i modelli nel file `schema.prisma`.
 
     implementazione metodi per gestire utenti, post, like, ecc.
     # Metodi da implementare
