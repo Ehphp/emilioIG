@@ -61,20 +61,14 @@
             Metodo: `getUserLikes(userId)`
             Descrizione: Restituisce una lista di like effettuati da un 
             utente specifico.
+         ## commenti 
 
+        ##
 
 
 ### Frontend (React)
 
-1. **Installazione:**
-   - Assicurati di avere Node.js e npm installati.
-   - Esegui `npm install` nella cartella del frontend per installare le dipendenze.
 
-2. **Configurazione:**
-   - Configura Axios per gestire le richieste HTTP al server backend.
-
-3. **Avvio dell'App:**
-   - Avvia l'app React con il comando `npm start`.
 
 ## Struttura del Progetto
 
@@ -91,6 +85,5 @@
 ### Frontend (React)
 - `/frontend/src/components`: Contiene le componenti React dell'app.
 - `/frontend/src/services`: Gestione delle richieste al backend con Axios.
-- Altri possibili dettagli sulla struttura del codice del frontend.
 
 
