@@ -1,67 +1,67 @@
 # Nome del Tuo Progetto
     IG
+<<<<<<< HEAD:readme.md
 ## Setup del Progetto
 
 ### Backend (Node.js e Prisma)
 
 
 1. **implementazione metodi per gestire utenti, post, like, ecc.
+=======
+
+    implementazione metodi per gestire utenti, post, like, ecc.
+>>>>>>> aa0d2b0d23008fc8ef449d83dba7a41568e58ceb:readme.txt
     # Metodi da implementare
 
             ## Utenti (Users)
 
             ### Creazione di un Utente
             Metodo: `createUser(username, email, password)`
-            Descrizione: Crea un nuovo utente nel database con 
-            le informazioni fornite.
+           
 
             ### Recupero di un Utente per ID
             Metodo: `getUserById(userId)`
-            Descrizione: Restituisce le informazioni di un utente 
-            basato sul suo ID.
-
+          
             ### Recupero di Tutti gli Utenti
             Metodo: `getAllUsers()`
-            Descrizione: Restituisce una lista di tutti gli utenti presenti 
-            nel database.
+           
 
             ### Creazione di un Post per un Utente
             Metodo: `createPost(userId, title, content)`
-            Descrizione: Permette a un utente di creare un nuovo post.
 
             ## Post
 
             ### Recupero di un Post per ID
             Metodo: `getPostById(postId)`
-            Descrizione: Restituisce le informazioni di un post basato sul suo ID.
 
             ### Recupero di Tutti i Post
             Metodo: `getAllPosts()`
-            Descrizione: Restituisce una lista di tutti i post presenti nel database.
 
             ### Recupero dei Post di un Utente
             Metodo: `getUserPosts(userId)`
-            Descrizione: Restituisce una lista di post pubblicati da un 
-            utente specifico.
+      
 
             ## Like
 
             ### Aggiunta di un Like a un Post
             Metodo: `addLikeToPost(userId, postId)`
-            Descrizione: Permette a un utente di mettere un like su un post.
 
             ### Recupero dei Like di un Post
             Metodo: `getPostLikes(postId)`
-            Descrizione: Restituisce una lista di like per un post specifico.
 
             ### Recupero dei Like di un Utente
             Metodo: `getUserLikes(userId)`
-            Descrizione: Restituisce una lista di like effettuati da un 
-            utente specifico.
+         ## commenti 
+
+        ##
 
 
+<<<<<<< HEAD:readme.md
 
-
+=======
+### Frontend (React)
+### lol 
+>>>>>>> aa0d2b0d23008fc8ef449d83dba7a41568e58ceb:readme.txt
 ## Struttura del Progetto
 
 - `/backend`: Contiene i file per il server Node.js.
@@ -77,6 +77,9 @@
 ### Frontend (React)
 - `/frontend/src/components`: Contiene le componenti React dell'app.
 - `/frontend/src/services`: Gestione delle richieste al backend con Axios.
+<<<<<<< HEAD:readme.md
 
+=======
+>>>>>>> aa0d2b0d23008fc8ef449d83dba7a41568e58ceb:readme.txt
 
 
