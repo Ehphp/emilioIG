@@ -5,10 +5,7 @@
 ### Backend (Node.js e Prisma)
 
 
-1. **Configurazione del Database con Prisma:**
-   - Crea uno schema utilizzando Prisma e definisci i modelli nel file `schema.prisma`.
-
-    implementazione metodi per gestire utenti, post, like, ecc.
+1. **implementazione metodi per gestire utenti, post, like, ecc.
     # Metodi da implementare
 
             ## Utenti (Users)
@@ -64,17 +61,6 @@
 
 
 
-### Frontend (React)
-
-1. **Installazione:**
-   - Assicurati di avere Node.js e npm installati.
-   - Esegui `npm install` nella cartella del frontend per installare le dipendenze.
-
-2. **Configurazione:**
-   - Configura Axios per gestire le richieste HTTP al server backend.
-
-3. **Avvio dell'App:**
-   - Avvia l'app React con il comando `npm start`.
 
 ## Struttura del Progetto
 
@@ -91,6 +77,6 @@
 ### Frontend (React)
 - `/frontend/src/components`: Contiene le componenti React dell'app.
 - `/frontend/src/services`: Gestione delle richieste al backend con Axios.
-- Altri possibili dettagli sulla struttura del codice del frontend.
+
 
 

@@ -2,13 +2,13 @@ import express, { Router, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
 
-const router: Router = express.Router();
+const userRouter: Router = express.Router();
 const prisma = new PrismaClient();
 
 
 type UserIdentifier = string | number;
 //trova utenti per nome iniziale o id  
-router.get('/user/:identifier', async (req: Request, res: Response) => {
+userRouter.get('/user/:identifier', async (req: Request, res: Response) => {
     const identifier: UserIdentifier = isNaN(+req.params.identifier)
         ? req.params.identifier
         : +req.params.identifier;
@@ -51,7 +51,7 @@ router.get('/user/:identifier', async (req: Request, res: Response) => {
 
 });
 // get all 
-router.get('/users', async (req: Request, res: Response) => {
+userRouter.get('/users', async (req: Request, res: Response) => {
 
     const allUsers = await prisma.user.findMany();
     res.json(allUsers)
@@ -60,8 +60,8 @@ router.get('/users', async (req: Request, res: Response) => {
 
 
 //vabbeh create a new user 
-router.post('/user', async (req: Request, res: Response) => {
-    const { username, email, password } = req.body;
+userRouter.post('/user', async (req: Request, res: Response) => {
+    const { username, email, password, imgSrc } = req.body;
     if (req.body.password.length < 10) {
 
         res.json('password too short at least 10 char')
@@ -72,27 +72,44 @@ router.post('/user', async (req: Request, res: Response) => {
                     username,
                     email,
                     password,
+                    imgSrc,
                 },
             });
 
             res.json(newUser);
         } catch (error) {
-            res.status(500).json({ error: 'cant not create user' });
+            res.status(500).json({ error: 'can not create user' });
         }
     }
 
 });
 
+
+//createMany DevTool
+
+userRouter.post('/users', async (req: Request, res: Response) => {
+    try {
+        const usersToCreate = req.body.users; // Assicurati che la richiesta contenga un array di utenti da creare
+        const createdUsers = await prisma.user.createMany({
+            data: usersToCreate,
+        });
+
+        res.json(createdUsers);
+    } catch (error) {
+        res.status(500).json({ error: 'Impossibile creare gli utenti' });
+    }
+});
+
 //ediit user 
 
-router.put('/user/:id', async (req, res) => {
-    const { username, email, password } = req.body;
+userRouter.put('/user/:id', async (req, res) => {
+    const { username, email, password, imgSrc } = req.body;
     const userId = req.params.id;
 
     try {
         const user = await prisma.user.findUnique({
             where: {
-                id: parseInt(userId),
+                id: Number(userId),
             },
         });
 
@@ -106,12 +123,13 @@ router.put('/user/:id', async (req, res) => {
 
         const updatedUser = await prisma.user.update({
             where: {
-                id: parseInt(userId),
+                id: Number(userId),
             },
             data: {
                 username,
                 email,
                 password,
+                imgSrc,
             },
         });
 
@@ -121,7 +139,7 @@ router.put('/user/:id', async (req, res) => {
     }
 });
 //delete user by id or exact username
-router.delete('/user/:identifier', async (req, res) => {
+userRouter.delete('/user/:identifier', async (req, res) => {
     const identifier = req.params.identifier;
     let user;
 
@@ -157,4 +175,4 @@ router.delete('/user/:identifier', async (req, res) => {
     }
 });
 
-export default router
+export default userRouter
