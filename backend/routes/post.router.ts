@@ -1,23 +1,51 @@
 import express, { Router, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import authenticateToken from './middelwareverificaToken';
+import upload from '../middleware/multerConfig';
+
 
 
 
 const postRouter: Router = express.Router();
 const prisma = new PrismaClient();
 
-//getALll
 postRouter.get('/posts', async (req: Request, res: Response) => {
     try {
-        const allPosts = await prisma.post.findMany();
-        res.json(allPosts)
+        const allPosts = await prisma.post.findMany({
 
+            orderBy: {
+                createdAt: 'desc',
+            },
+            include: {
+                likes: true,
+                comments: {
+                    include: {
+                        user: true,
+                    },
+                },
+            },
+        });
+        const postsWithImageUrls = allPosts.map(post => {
+            if (post.imgSrc) {
+                if (post.imgSrc.startsWith('http://') || post.imgSrc.startsWith('https://')) {
+                    return post;
+                } else {
+
+                    return {
+                        ...post,
+                        imgSrc: `http://localhost:4000/${post.imgSrc}`
+                    };
+                }
+            }
+            return post;
+        });
+
+        res.json(postsWithImageUrls);
     } catch (error: any) {
-        res.status(404).send(console.log('no post founf', error)
-        )
+        res.status(404).send('No posts found');
     }
+});
 
-})
 
 //getUnique
 
@@ -25,7 +53,9 @@ postRouter.get('/post/:id', async (req: Request, res: Response) => {
     try {
         const postId = Number(req.params.id);
         const post = await prisma.post.findUnique({
-            where: { id: postId },
+            where: { id: postId }, include: {
+                likes: true,
+            },
         });
 
         if (!post) {
@@ -38,22 +68,65 @@ postRouter.get('/post/:id', async (req: Request, res: Response) => {
     }
 });
 
+//getALllpostsByUserId
+postRouter.get('/user/:userId/posts', async (req: Request, res: Response) => {
+    const userId = Number(req.params.userId);
 
-//create tag by name
+    try {
+        const userPosts = await prisma.post.findMany({
+            where: {
+                authorId: userId,
+            }, include: {
+                likes: true,
+            },
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
+
+        const postsWithImageUrls = userPosts.map(post => {
+            if (post.imgSrc) {
+                if (post.imgSrc.startsWith('http://') || post.imgSrc.startsWith('https://')) {
+                    return post;
+                } else {
+
+                    return {
+                        ...post,
+                        imgSrc: `http://localhost:4000/${post.imgSrc}`
+                    };
+                }
+            }
+            return post;
+        });
+
+        res.json(postsWithImageUrls);
+    } catch (error: any) {
+        res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
+
+//get tag by name
 postRouter.get('/posts/:tagName', async (req, res) => {
     const tagName = req.params.tagName;
 
     try {
         const posts = await prisma.post.findMany({
             where: {
-                tags: {
+                postTags: {
                     some: {
-                        name: tagName,
+                        tag: {
+                            name: tagName,
+                        },
                     },
                 },
             },
             include: {
-                tags: true,
+                postTags: {
+                    include: {
+                        tag: true,
+                    },
+                },
             },
         });
 
@@ -66,24 +139,39 @@ postRouter.get('/posts/:tagName', async (req, res) => {
 
 
 //create
-postRouter.post('/post', async (req: Request, res: Response) => {
+
+postRouter.post('/post', authenticateToken, upload.single('image'), async (req: Request, res: Response) => {
     try {
-        const { title, description, authorId, imgSrc } = req.body;
+        const { title, description, authorId } = req.body;
+        const numericAuthorId = Number(authorId);
+
+        if (isNaN(numericAuthorId)) {
+            return res.status(400).json({ error: 'Invalid authorId not a number' });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({ error: 'No image file provided' });
+        }
+
+        const imgSrc = req.file.path;
 
         const newPost = await prisma.post.create({
             data: {
                 title,
-                imgSrc,
                 description,
-                authorId,
+                authorId: numericAuthorId,
+                imgSrc,
             },
         });
 
-        res.status(201).json({ message: 'post created', post: newPost });
+        res.status(201).json({ message: 'Post created', post: newPost });
     } catch (error: any) {
         res.status(500).json({ error: 'Impossible create post', message: error.message });
     }
 });
+
+
+
 //createMany DevTool
 postRouter.post('/posts', async (req, res) => {
     try {
@@ -116,22 +204,24 @@ postRouter.put('/post/:id', async (req: Request, res: Response) => {
             },
         });
 
-        res.json({ message: 'Post updated successfully', post: updatedPost });
+        res.json({ message: 'Post aggiornato successfully', post: updatedPost });
     } catch (error: any) {
         res.status(500).json({ error: 'Impossible update post', message: error.message });
     }
 });
 
 // delete
-postRouter.delete('/post/:id', async (req: Request, res: Response) => {
+postRouter.delete('/post/:id', authenticateToken, async (req: Request, res: Response) => {
     try {
         const postId = Number(req.params.id);
+        console.log(postId);
+
         const post = await prisma.post.findUnique({
             where: { id: postId },
         });
 
         if (!post) {
-            res.status(404).json({ message: 'Post not found' });
+            res.status(404).json({ message: 'Post non found' });
         } else {
             await prisma.post.delete({
                 where: { id: postId },

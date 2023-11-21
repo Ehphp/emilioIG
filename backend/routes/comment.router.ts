@@ -42,6 +42,10 @@ commentRouter.get('/post/comments/:postId', async (req: Request, res: Response) 
 
         const comments = await prisma.comment.findMany({
             where: { postId },
+            include: {
+                user: true,
+            },
+
         });
 
         res.json(comments);
@@ -81,10 +85,11 @@ commentRouter.post('/comment', async (req: Request, res: Response) => {
             data: {
                 content,
                 postId,
-
                 userId,
 
-            },
+            }, include: {
+                user: true,
+            }
         });
 
         res.status(201).json({ message: 'Comment created', comment: newComment });
