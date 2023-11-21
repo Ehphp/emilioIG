@@ -70,9 +70,9 @@
 ## Struttura del Codice
 
 ### Backend (Node.js)
-- `/backend/controllers`: Gestione delle richieste e delle operazioni CRUD con Prisma.
 - `/backend/models`: Modelli e logica del database con Prisma.
-- `/backend/routes`: Configurazioni delle route API.
+- `/backend/routes`: Configurazioni delle route API egGestione delle richieste e delle operazioni CRUD con Prisma..
+- 
 
 ### Frontend (React)
 - `/frontend/src/components`: Contiene le componenti React dell'app.
