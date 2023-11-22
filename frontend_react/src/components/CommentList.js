@@ -8,7 +8,9 @@ function CommentList({ comments }) {
             {comments.map(comment => (
                 <div className="commentContent" key={comment.id}>
                     <div className="commentAuthor">
-                        <img className='imgProfileComment' src={comment.user.imgSrc} alt={comment.user.username} />
+                        <img className='imgProfileComment'
+                            src={comment.user.imgSrc}
+                            alt={comment.user.username} />
                         <h4 >{comment.user.username}</h4>
                     </div>
                     <p>{comment.content}</p>

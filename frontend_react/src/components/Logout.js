@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../features/authSlice"; // Assicurati che il percorso sia corretto
+import { logout } from "../features/authSlice";
 import { useNavigate } from "react-router-dom";
 
 function Logout() {

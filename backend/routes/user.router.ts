@@ -130,7 +130,6 @@ userRouter.post('/login', async (req: Request, res: Response) => {
             include: {
                 followers: true,
                 following: true,
-
             }
         });
 
@@ -203,42 +202,24 @@ userRouter.put('/user/:id', async (req, res) => {
         res.status(500).json({ error: 'Could not update user' });
     }
 });
-//delete user by id or exact username
-userRouter.delete('/user/:identifier', async (req, res) => {
-    const identifier = req.params.identifier;
-    let user;
+
+// Delete byID
+userRouter.delete('/user/:id', async (req: Request, res: Response) => {
+    const userId = Number(req.params.id);
 
     try {
-        if (!isNaN(+identifier)) {
-            const userId = parseInt(identifier);
-            user = await prisma.user.findUnique({
-                where: {
-                    id: userId,
-                },
-            });
-        } else {
-            user = await prisma.user.findUnique({
-                where: {
-                    username: identifier,
-                },
-            });
-        }
-
-        if (!user) {
-            return res.status(404).json({ error: 'user not found' });
-        }
-
-        await prisma.user.delete({
-            where: {
-                id: user.id,
-            },
+        const user = await prisma.user.delete({
+            where: { id: userId },
         });
 
-        res.json({ message: 'User deleted ', user });
+        res.json({ message: 'User deleted successfully', user });
     } catch (error) {
-        res.status(500).json({ error: 'cant delete user' });
+        res.status(500).json({ error: 'Unable to delete user' });
     }
 });
+
+
+
 
 
 //addFollower
@@ -267,7 +248,7 @@ userRouter.put('/follow', async (req, res) => {
 
 
 userRouter.delete('/unfollow', async (req, res) => {
-    const { userId, followerId } = req.body; // ID dell'utente e ID del follower da rimuovere
+    const { userId, followerId } = req.body;
 
     try {
         const user = await prisma.user.update({

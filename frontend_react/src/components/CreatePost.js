@@ -10,9 +10,13 @@ function CreatePost() {
     const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
 
+
+
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
+
 
         formData.append('title', title);
         formData.append('description', description);
@@ -28,9 +32,8 @@ function CreatePost() {
                 },
             });
 
-            navigate('/profile')
 
-            console.log(response.data);
+            navigate('/profile')
         } catch (error) {
             console.error('Error creating post: ', error);
         }

@@ -87,8 +87,10 @@ commentRouter.post('/comment', async (req: Request, res: Response) => {
                 postId,
                 userId,
 
+
             }, include: {
                 user: true,
+
             }
         });
 

@@ -1,33 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-
-function ProfileHeader() {
-    const globalUser = useSelector((state) => state.auth.user);
-    const { userId: urlUserId } = useParams();
-    const userId = urlUserId || globalUser.id;
-
-    console.log(userId);
-    const [user, setUser] = useState(null);
-    const defaultImage = 'https://r2.starryai.com/results/280439566/b2af7633-b240-469e-8a0b-8967ca847fc1.webp';
-
-    useEffect(() => {
-        console.log('URL UserId:', urlUserId);
-        console.log('Global User Id:', globalUser.id);
-        if (userId) {
-            axios.get(`http://localhost:4000/user/${userId}`)
-                .then(response => setUser(response.data))
-                .catch(error => console.error('Error fetching user: ', error));
-        }
-    }, [userId]);
-
-    if (!user) return null;
-
+import React from 'react';
+import DeleteUserButton from './DeleteUserBtn';
+function ProfileHeader({ user }) {
+    // const defaultImage = 'https://r2.starryai.com/results/72105747/79dca548-a7e7-46fa-ac5f-5233f1b90d99.webp';
+    const userId = user.id
     return (
         <div className='profileHeader'>
             <div className='imgProfileProfile'>
-                <img src={user.imgSrc || defaultImage} alt={user.username} />
+                <img src={user.imgSrc} alt={user.username} />
+                <DeleteUserButton userId={userId} />
             </div>
             <div>
                 <h1>{user.username}</h1>

@@ -16,6 +16,7 @@ function AddComment({ postId, onCommentAdded }) {
             const url = 'http://localhost:4000/comment';
             const response = await axios.post(url, { content: comment, userId, postId });
             const newComment = response.data.comment;
+            console.log(newComment);
 
             onCommentAdded(newComment);
             setComment("");
@@ -25,8 +26,13 @@ function AddComment({ postId, onCommentAdded }) {
     };
 
     return (
-        <form onSubmit={handleFormSubmit}>
-            <input type='text' placeholder='Inserisci commento' className='addCommentInput' value={comment} onChange={handleInputChange} />
+        <form className='formAddComment' onSubmit={handleFormSubmit}>
+            <input type='text'
+                placeholder='Inserisci commento'
+                className='addCommentInput'
+                value={comment}
+                onChange={handleInputChange} />
+
             <button type="submit">Aggiungi Commento</button>
         </form>
     );

@@ -15,6 +15,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     const url = 'http://localhost:4000/login';
 
     try {
@@ -29,13 +30,7 @@ const Login = () => {
 
       navigate('/profile');
     } catch (error) {
-      if (error.response) {
-        toast.error('Login Failed: ' + error.message);
-      } else if (error.request) {
-        toast.error('La richiesta è stata inviata ma nessuna risposta è stata ricevuta');
-      } else {
-        toast.error('Qualcosa è andato storto: ' + error.message);
-      }
+      console.log(error);
 
     }
   };
@@ -49,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <form className='content' onSubmit={handleSubmit}>
+    <form className='contentLogin' onSubmit={handleSubmit}>
       <h2>Login</h2>
       <input type="email" placeholder="Email" value={email} onChange={handleEmailChange} />
       <input type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />

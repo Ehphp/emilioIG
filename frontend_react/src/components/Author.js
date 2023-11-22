@@ -6,7 +6,7 @@ function Author({ authorId }) {
     const [author, setAuthor] = useState(null);
     const navigate = useNavigate()
 
-    const defaultImage = 'https://r2.starryai.com/results/280439566/b2af7633-b240-469e-8a0b-8967ca847fc1.webp';
+    const defaultImage = 'https://r2.starryai.com/results/72105747/79dca548-a7e7-46fa-ac5f-5233f1b90d99.webp';
 
     useEffect(() => {
         axios.get(`http://localhost:4000/user/${authorId}`)

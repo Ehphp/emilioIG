@@ -9,10 +9,8 @@ function Navbar() {
         <nav className='nav'>
             <h1>Instagram</h1>
             <div className='link'>
-
                 {!user ? (
                     <>
-
                         <Link to="/"></Link>
                         <Link to="/signup">Registrati</Link>
                         <Link to="/login">Login</Link>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 import Author from './Author';
@@ -9,9 +9,10 @@ import AddComment from "./AddComment";
 import DeletePostBtn from './DeletePostBtn';
 
 
-function Post({ post, updateLikes, deletePost, onDeletePost }) {
+function Post({ post, updateLikes, onDeletePost }) {
     const [comments, setComments] = useState([]);
-    const user = useSelector((state) => state.auth.user);
+    // const user = useSelector((state) => state.auth.user);
+
 
     useEffect(() => {
         axios.get(`http://localhost:4000/post/comments/${post.id}`)
@@ -26,9 +27,7 @@ function Post({ post, updateLikes, deletePost, onDeletePost }) {
     };
 
     const onDeleteSuccess = (postId) => {
-        console.log('deletepost Post', postId);
-        onDeletePost(postId)
-        deletePost(postId);
+        onDeletePost(postId);
     }
 
     return (
